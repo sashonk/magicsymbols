@@ -1,0 +1,39 @@
+yes=yes
+no=no
+game = play
+settings = settings
+rules = rules
+exit = exit
+back = back
+lang= english
+accept = accept
+cancel = cancel
+begin = Play
+ok=Ok
+play=Play
+restart= Replay
+language=Language
+line1=Think of a any two-digit number.
+line2=Subtract its constituent digits from it
+line3=(for instance, subtract 6 and 5 from 65,
+line4=the result is 54).
+line5=Find the result number in the table,
+line6=and the sign which corresponds to it.
+line7=Think of that sign.
+line8=Tap the black square.
+rate=[Rate app and
+get the secret]
+secret=[Game "Magic Signs" is based on an amusing mathematical law: the result of subtraction is always one of : 9, 18, 27, 36, 54, 63, 72, 81. One and the same symbol is binded to each of these numbers. And that very symbol appears on the screen after you tap the black square]
+do_you_mind_rate=[Do you mind 
+rating the app?]
+yes_rate=[Yes, 
+I can do it]
+no_rate=[No, 
+sorry]
+how_it_guess=How it guessed?
+super_want_rate=[Super, I want
+ rate app
+ in Google Play]
+ internet=[Please, check
+ your internet connection]
+howto=[rate app, and get to know it]
