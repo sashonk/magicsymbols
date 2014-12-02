@@ -30,6 +30,7 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
 	  private static final String EXPLAY = "02BD43C728CE8855D954F242C3C36266";
 	  protected AdView adView;
 	  protected InterstitialAd interstitial;
+	  private static final String appId = "com.me.magic2.android";
 	  protected View gameView;
 	
 	@Override
@@ -161,7 +162,7 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
 			@Override
 			public void run() {
 		
-		        AndroidLauncher.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" +  AndroidLauncher.this.getPackageName())));
+		        AndroidLauncher.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appId)));
      
 				
 			}

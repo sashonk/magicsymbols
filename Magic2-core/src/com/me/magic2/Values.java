@@ -9,5 +9,7 @@ public class Values {
 	public static String played = "played";
 	
 	public static String rated = "rated";
+	
+	public static String playsCount = "playsCount";
 
 }

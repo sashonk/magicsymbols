@@ -567,110 +567,103 @@ public class GameScreen extends BaseScreen{
 						})));
 						
 						
+						int playsCount = prefs.getInteger(Values.playsCount, 1);
+						prefs.putInteger(Values.playsCount, playsCount+1);
+						prefs.flush();
 						
-						
-						getStage().addAction(Actions.sequence(Actions.delay(2), Actions.run(new Runnable() {
-							
-							@Override
-							public void run() {
-								
-								 TextButton guess = new L10nButton(getGame().getL10n(), "how_it_guess", getGame().getManager().getSkin(), "medium");
-								 guess.align(Align.center);
-								//getStage().addActor(guess);
-								 TextButton howto = new L10nButton(getGame().getL10n(), "howto", getGame().getManager().getSkin(), "small");
-								 howto.align(Align.center);
-								 
-								final Table uplabel = new Table();
-								getStage().addActor(uplabel);
-								uplabel.defaults().align(Align.center);								
-								uplabel.add(guess).row();
-								uplabel.add(howto);
-								uplabel.pack();
-								
-								uplabel.addListener(new ClickListener(){
-									public void clicked (InputEvent event, float x, float y) {
-										gestureEnabled = true;
+						////// GUESSS //////
+						if(playsCount>1){
+								getStage().addAction(Actions.sequence(Actions.delay(2), Actions.run(new Runnable() {
+									
+									@Override
+									public void run() {
 										
-										boolean rated = prefs.getBoolean(Values.rated, false);
-										if(!rated){
-											getGame().getNative().rate();
-											prefs.putBoolean(Values.rated, true);
-											prefs.flush();
-										}
-
-								/*		int interstitialShowCount =  prefs.getInteger(Values.guess_click_count, 0);
-										if(interstitialShowCount % 3 == 0){																																										
-											//getGame().getNative().showInterstitial();
-											showInterstitial();
-										}
-										interstitialShowCount++;
-										 prefs.putInteger(Values.guess_click_count, interstitialShowCount);
-										 prefs.flush();*/
-										
+										 TextButton guess = new L10nButton(getGame().getL10n(), "how_it_guess", getGame().getManager().getSkin(), "medium");
+										 guess.align(Align.center);
+										//getStage().addActor(guess);
+										 TextButton howto = new L10nButton(getGame().getL10n(), "howto", getGame().getManager().getSkin(), "small");
+										 howto.align(Align.center);
 										 
-										//	p2z.setCanPan(true);
-										//	p2z.setCanZoom(true);
+										final Table uplabel = new Table();
+										getStage().addActor(uplabel);
+										uplabel.defaults().align(Align.center);								
+										uplabel.add(guess).row();
+										uplabel.add(howto);
+										uplabel.pack();
 										
-										final Dialog dialog = new Dialog("", getGame().getManager().getSkin(), "default");
-										dialog.getButtonTable().defaults().pad(20);
-										dialog.setClip(false);
-										dialog.setBackground("dialog");
-										dialog.setModal(true);
-										dialog.setMovable(false);
-										Label label = new L10nLabel(getGame().getL10n(), "secret", getGame().getManager().getSkin(), "tiny");
-										label.setAlignment(Align.center);
-										label.setWrap(true);
-										dialog.getContentTable().add(label).width(400).pad(15);
-										Button close = new L10nButton(getGame().getL10n(), "ok", getGame().getManager().getSkin(), "medium");
-										dialog.button(close);
-										close.addListener(new ClickListener(){
+										uplabel.addListener(new ClickListener(){
 											public void clicked (InputEvent event, float x, float y) {
-												final int interstitialShowCount =  prefs.getInteger(Values.guess_click_count, 0);
-												if(interstitialShowCount % 3 == 0){																																										
-													showInterstitial();
+												gestureEnabled = true;
+												
+												boolean rated = prefs.getBoolean(Values.rated, false);
+												if(!rated){
+													getGame().getNative().rate();
+													prefs.putBoolean(Values.rated, true);
+													prefs.flush();
 												}
-												 prefs.putInteger(Values.guess_click_count, interstitialShowCount+1);
-												 prefs.flush();
+		
+			
 												
+												final Dialog dialog = new Dialog("", getGame().getManager().getSkin(), "default");
+												dialog.getButtonTable().defaults().pad(20);
+												dialog.setClip(false);
+												dialog.setBackground("dialog");
+												dialog.setModal(true);
+												dialog.setMovable(false);
+												Label label = new L10nLabel(getGame().getL10n(), "secret", getGame().getManager().getSkin(), "tiny");
+												label.setAlignment(Align.center);
+												label.setWrap(true);
+												dialog.getContentTable().add(label).width(400).pad(15);
+												Button close = new L10nButton(getGame().getL10n(), "ok", getGame().getManager().getSkin(), "medium");
+												dialog.button(close);
+												close.addListener(new ClickListener(){
+													public void clicked (InputEvent event, float x, float y) {
+														final int interstitialShowCount =  prefs.getInteger(Values.guess_click_count, 0);
+														if(interstitialShowCount % 3 == 0){																																										
+															showInterstitial();
+														}
+														 prefs.putInteger(Values.guess_click_count, interstitialShowCount+1);
+														 prefs.flush();
+														
+														
+														
+														dialog.hide();
+														
+														cam.zoom = 1;
+														constrainPosition(cam, getStage());
+													}
+												});
 												
+												Label superWantRate = new L10nLabel(getGame().getL10n(), "super_want_rate", getGame().getManager().getSkin(), "tiny2");
+												superWantRate.setAlignment(Align.center);
+												//dialog.getButtonTable().add(superWantRate);
+												superWantRate.addListener(new ClickListener(){
+													public void clicked (InputEvent event, float x, float y) {
+														getGame().getNative().rate();
+														prefs.putBoolean(Values.rated, true);
+														prefs.flush();
+														
+														dialog.hide();
+														
 												
-												dialog.hide();
+													}
+												});
 												
-												cam.zoom = 1;
-												constrainPosition(cam, getStage());
+												dialog.show(getStage());
+												
+		
 											}
 										});
 										
-										Label superWantRate = new L10nLabel(getGame().getL10n(), "super_want_rate", getGame().getManager().getSkin(), "tiny2");
-										superWantRate.setAlignment(Align.center);
-										//dialog.getButtonTable().add(superWantRate);
-										superWantRate.addListener(new ClickListener(){
-											public void clicked (InputEvent event, float x, float y) {
-												getGame().getNative().rate();
-												prefs.putBoolean(Values.rated, true);
-												prefs.flush();
-												
-												dialog.hide();
-												
+										Util.center(uplabel);
+										uplabel.setPosition(uplabel.getX(), getStage().getHeight()+5);
 										
-											}
-										});
-										
-										dialog.show(getStage());
-										
-
+										float targetY = (getStage().getHeight() + getStage().getHeight()/2+spot.getHeight()/2)/2-40;
+										uplabel.addAction(Actions.sequence(Actions.moveTo(uplabel.getX(), targetY, 1)/*, blink()*/));
 									}
-								});
-								
-								Util.center(uplabel);
-								uplabel.setPosition(uplabel.getX(), getStage().getHeight()+5);
-								
-								float targetY = (getStage().getHeight() + getStage().getHeight()/2+spot.getHeight()/2)/2-40;
-								uplabel.addAction(Actions.sequence(Actions.moveTo(uplabel.getX(), targetY, 1)/*, blink()*/));
-							}
-						})));
+								})));
 						
-					
+						}
 						
 						
 					}
