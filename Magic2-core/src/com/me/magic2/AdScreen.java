@@ -25,13 +25,14 @@ public class AdScreen extends BaseScreen{
 		super.show();
 		
 		AssetManager m = getGame().getManager().getAssetManager();
-		String bannerPath = "data/static.jpg";
+		String bannerPath = "data/static.png";
 		if(!m.isLoaded(bannerPath)){
 			m.load(bannerPath, Texture.class);
 			m.finishLoading();
 		}
 		
-		getStage().clear();				
+		getStage().clear();		
+		background();
 		Stage inter = getStage();
 		
 		Image img = new Image(getGame().getManager().getAssetManager().get(bannerPath, Texture.class));
