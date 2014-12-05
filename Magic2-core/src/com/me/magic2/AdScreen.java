@@ -12,12 +12,12 @@ public class AdScreen extends BaseScreen{
 	
 	GameScreen _gameScreen;
 
+
 	public AdScreen(MagicMain g , GameScreen gameScreen) {
 		super(g);
 		_gameScreen = gameScreen;
 		
 
-					
 	}
 	
 	@Override
