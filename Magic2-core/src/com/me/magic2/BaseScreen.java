@@ -29,7 +29,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public abstract class BaseScreen implements Screen{
 	protected MagicMain game;
 	protected Stage stage;
-
+protected static final Color background = Color.WHITE.cpy();
+protected static final Color borders = Color.WHITE.cpy();
 	
 	
 	FPSLogger logger = new FPSLogger();
@@ -67,7 +68,7 @@ public abstract class BaseScreen implements Screen{
 		//camera.zoom = 2f;
 		// stage.getRoot().setCullingArea(new Rectangle(0, 0, stage.getWidth(), stage.getHeight()));
 		Pixmap pmap = new Pixmap(1,1, Format.RGBA8888);
-		pmap.setColor(Color.WHITE);
+		pmap.setColor(background.cpy());
 		pmap.fill();
 		
 		tex = new Texture(pmap); 
@@ -84,7 +85,8 @@ public abstract class BaseScreen implements Screen{
 	}
 	
 	public void render (float delta){
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		
+		Gdx.gl.glClearColor(borders.r, borders.g, borders.b, borders.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	
 		stage.act();
