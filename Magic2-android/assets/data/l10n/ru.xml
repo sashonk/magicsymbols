@@ -1,0 +1,107 @@
+<localization lang="ru">
+    <entry>
+        <name>ok</name>
+        <value>Окей</value>
+    </entry>
+    <entry>
+        <name>yes</name>
+        <value>да</value>
+    </entry>
+        <entry>
+        <name>no</name>
+        <value>нет</value>
+    </entry>
+    <entry>
+    <name>begin</name>
+        <value>Играть</value>
+    </entry>    
+    <entry>
+    <name>play</name>
+        <value>Играть</value>
+    </entry> 
+    <entry>
+         <name>restart</name>
+        <value>Заново</value>
+    </entry> 
+            <entry>
+         <name>language</name>
+        <value>Язык</value>
+    </entry> 
+    <entry>
+        <name>line1</name>
+        <value>Задумайте любое двузначное число.</value>        
+    </entry>
+    <entry>
+        <name>line2</name>
+        <value>Вычтите из него составляющие его цифры</value>        
+    </entry>
+    <entry>
+        <name>line3</name>
+        <value>(например, из числа 65 надо вычесть</value>        
+    </entry>
+    <entry>
+        <name>line4</name>
+        <value>6 и 5, получится 54).</value>        
+    </entry>
+    <entry>
+        <name>line5</name>
+        <value>Найдите полученное число в таблице и символ,</value>        
+    </entry>
+    <entry>
+        <name>line6</name>
+        <value>которому оно соответствует.</value>        
+    </entry>
+    <entry>
+        <name>line7</name>
+        <value>Вообразите мысленно себе этот символ.</value>        
+    </entry>
+    <entry>
+        <name>line8</name>
+        <value>Щелкните по черному квадрату.</value>        
+    </entry>    
+    <entry>
+         <name>rate</name>
+          <value>
+            <line>Оценить</line>
+            <line>и узнать секрет</line>
+        </value>
+    </entry>    
+    <entry>
+         <name>secret</name>
+          <value>Игра "Магические символы" основана на забавном математическом законе: при вычитании из двузначного числа суммы цифр его составляющих всегда получается одно из чисел, кратное 9: то есть, 9, 18, 27, 36, 54, 63, 72, 81. Всем этим числам присваивается один и тот же символ. Его вы и видите на экране после того, как нажимаете на черный квадрат.</value>
+    </entry>            
+     <entry>
+         <name>do_you_mind_rate</name>
+          <value>
+            <line>Вас не затруднит оценить приложение?</line>
+            <line>Для разработчика это очень важно!</line>
+        </value>
+     </entry>  
+    <entry>
+    <name>yes_rate</name>
+          <value>Оценить</value>
+    </entry>      
+     <entry>
+    	 <name>no_rate</name>
+          <value>Выйти</value>
+    </entry> 
+     <entry>
+    	 <name>how_it_guess</name>
+          <value>Как отгадывает?</value>
+    </entry>  
+     <entry>
+    	 <name>super_want_rate</name>
+          <value>
+            <line>Супер!</line>              
+            <line>Хочу оценить</line>
+            <line>в Google Play</line>
+        </value>
+    </entry> 
+     <entry>
+    	 <name>howto</name>
+          <value>
+            <line>оценить приложение и</line>              
+            <line>узнать отгадку</line>
+        </value>
+    </entry>                   
+</localization>
