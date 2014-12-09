@@ -74,7 +74,7 @@ public class MagicMain extends Game implements IGame{
 	@Override
 	public void create() {
 		
-		clearPrefs();
+		//clearPrefs();
 			
 		Gdx.app.log(MagicMain.class.getName(), "game started");		
 		

@@ -165,7 +165,7 @@ public class Settings {
 	public  class Defaults{
 
 		public String getLanguage() {
-			return "pedro almadovar";//Locale.getDefault().getLanguage();
+			return Locale.getDefault().getLanguage();
 		}
 		
 		public float getMusicVolume() {

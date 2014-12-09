@@ -31,16 +31,10 @@ public class L10nManager {
 	
 	public L10nManager(FileHandle l10nDirectory) {
 		FileHandle root = l10nDirectory;
-		FileFilter xmlFilter = new FileFilter() {
-			
-			@Override
-			public boolean accept(File pathname) {
-				return pathname.isFile() && pathname.canRead() && pathname.getName().endsWith(".xml");
-			}
-		};
+
 		try{
 		DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-		for(FileHandle langSource : root.list(xmlFilter)){
+		for(FileHandle langSource : root.list()){
 			Document document =  db.parse(langSource.read());
 			Element l10n =  document.getDocumentElement();
 			String lang = l10n.getAttribute("lang");
