@@ -1,11 +1,13 @@
 package com.me.magic2;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 
 
-public class MagicMain extends Game {
+public class MagicMain extends Game implements IGame{
 	
 	L10nManager l10n;
 	Settings settings;
@@ -72,10 +74,12 @@ public class MagicMain extends Game {
 	@Override
 	public void create() {
 		
-		//clearPrefs();
+		clearPrefs();
 			
 		Gdx.app.log(MagicMain.class.getName(), "game started");		
-		l10n = new L10nManager("en", "ru");
+		
+		String l10nDirectory = Gdx.app.getType()==ApplicationType.Desktop ? "./bin/data/l10n/" : "data/l10n";
+		l10n = new L10nManager(Gdx.files.internal(l10nDirectory));
 		manager = new ResourcesManager();
 		manager.loadResources();
 		manager.finishLoading();

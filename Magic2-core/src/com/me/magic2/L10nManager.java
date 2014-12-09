@@ -1,6 +1,8 @@
 package com.me.magic2;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,6 +13,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
@@ -20,98 +29,60 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class L10nManager {
 	
-	public L10nManager(String...langs){
-		FileHandle root = Gdx.files.internal("data/l10n/");
-		
-		for(String lang : langs){
-			FileHandle file = root.child(lang+".txt");
-			if(!file.exists()){
-				throw new RuntimeException("l10n file not found: "+lang);
+	public L10nManager(FileHandle l10nDirectory) {
+		FileHandle root = l10nDirectory;
+		FileFilter xmlFilter = new FileFilter() {
+			
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.isFile() && pathname.canRead() && pathname.getName().endsWith(".xml");
 			}
+		};
+		try{
+		DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		for(FileHandle langSource : root.list(xmlFilter)){
+			Document document =  db.parse(langSource.read());
+			Element l10n =  document.getDocumentElement();
+			String lang = l10n.getAttribute("lang");
 			
-			Map<String, String> localization =new HashMap<String, String>();
-			localizations.put(lang, localization);
+			Map<String, String> data = new HashMap<String, String>();
+			localizations.put(lang, data);
 			
-			BufferedReader br =null;
-			try{ 
-				br = new BufferedReader(file.reader());
+			NodeList entries =  l10n.getElementsByTagName("entry");
+			for(int i = 0 ; i<entries.getLength(); i++){
+				Element entry = (Element) entries.item(i);
+				String name =  entry.getElementsByTagName("name").item(0).getTextContent().trim();
+				Element value = (Element) entry.getElementsByTagName("value").item(0);
+				NodeList lines = value.getElementsByTagName("line");
+				StringBuilder sb = new StringBuilder();
+				if(lines.getLength()>0){
+					int c = 0;
+					for(int j = 0; j <lines.getLength(); j++){
+						if(c>0){
+							sb.append('\n');
+						}
+						Element line = (Element) lines.item(j);
+						sb.append(line.getTextContent().trim());
+						c++;
+					}
+				}
+				else{
+					sb.append(value.getTextContent().trim());
+				}
 				
-				while(true){
-					String line = br.readLine();
-					if(line==null){
-						break;
-					}
-					
-					String[] parts = line.split("=");
-					String name = parts[0].trim();
-					
-					String rawValue = parts[1].trim();
-					//StringBuilder value =  new StringBuilder(parts[1].trim()) ;
-					StringBuilder value = new StringBuilder();
-					
-					if(rawValue.indexOf('[')>-1){
-						while(true){
-							if(rawValue==null){
-								break;
-							}
-							
-							int begin = 0;
-							int end = rawValue.length();
-							
-							boolean exit = false;
-							if(rawValue.indexOf("[")>-1){
-								begin = rawValue.indexOf("[")+1;
-							}
-							
-							if(rawValue.indexOf("]")>-1){
-								end = rawValue.indexOf("]");
-								exit = true;
-							}
-							
-							value.append(rawValue.substring(begin, end));
-							
-							if(exit){
-								break;
-							}
-							else{
-								value.append('\n');
-								rawValue = br.readLine();
-							}
-							
-							
-						}						
-					}
-					else{
-						value.append(parts[1].trim());
-					}
-					
-					if(name.length()==0 || value.length()==0){
-						continue;
-					}
-					
-					
-					localization.put(name, value.toString());
-				}
+				data.put(name, sb.toString());
 			}
-			catch(Exception ex){
-				Gdx.app.error(L10nManager.this.getClass().getName(), "error reading file" ,ex);
-			}
-			finally{
-				if(br!=null){
-					try {
-						br.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						Gdx.app.error(L10nManager.this.getClass().getName(), "error closing stream" ,e);
-						
-					}
-				}
-			}
+		
 			
 			
 			
 		}
 	
+		
+		}
+		catch(Throwable t){
+			throw new RuntimeException(t);
+		}
 	}
 	
 	
@@ -152,8 +123,15 @@ public class L10nManager {
 	private List<L10nButton> buttons= new LinkedList<L10nButton>();
 	
 	public String get(String name, String lang){
-
-		String result =  localizations.get(lang).get(name);
+		Map<String, String> l10n = localizations.get(lang);
+		if(l10n==null){
+			l10n = localizations.get("en");
+			if(l10n==null){
+				l10n = localizations.values().iterator().next();
+			}
+		}
+		
+		String result =  l10n.get(name);
 		if(result==null){
 			result = String.format("[unlocalized:%s]", name);
 		}
@@ -188,4 +166,55 @@ public class L10nManager {
 
 	Map<String, Map<String, String>> localizations = new HashMap<String, Map<String, String>>();
 	
+	static class Localization{
+		
+		Localization(String lang){
+			_entries = new HashMap<String, L10nManager.Localization.Entry>();
+			_lang = lang;
+		}
+		
+		static class Entry{
+			public String getName() {
+				return name;
+			}
+			public void setName(String name) {
+				this.name = name;
+			}
+			public List<String> getLines() {
+				return lines;
+			}
+			public void setLines(List<String> lines) {
+				this.lines = lines;
+			}
+			public String getValue() {
+				return value;
+			}
+			public void setValue(String value) {
+				this.value = value;
+			}
+			private String name;
+			private List<String> lines;
+			private String value;
+		}
+		
+		private Map<String, Entry> _entries;
+		
+		public Map<String, Entry> get_entries() {
+			return _entries;
+		}
+
+		public void set_entries(Map<String, Entry> _entries) {
+			this._entries = _entries;
+		}
+
+		public String get_lang() {
+			return _lang;
+		}
+
+		public void set_lang(String _lang) {
+			this._lang = _lang;
+		}
+
+		private String _lang;
+	}
 }

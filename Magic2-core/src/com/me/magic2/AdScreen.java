@@ -1,5 +1,12 @@
 package com.me.magic2;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -11,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class AdScreen extends BaseScreen{
 	
 	GameScreen _gameScreen;
+	
+	static String[] banners = {"static.png"};
 
 
 	public AdScreen(MagicMain g , GameScreen gameScreen) {
@@ -20,12 +29,49 @@ public class AdScreen extends BaseScreen{
 
 	}
 	
+	static interface BannerPolicy{
+		String queryBannerName(String[] banners);
+	}
+	
+	static class RandomBannerPolicy implements BannerPolicy{
+
+		@Override
+		public String queryBannerName(String[] banners) {
+			return banners[new Random(System.currentTimeMillis()).nextInt(banners.length)];
+		}
+		
+	}
+	
+	static class FareBannerPolicy implements BannerPolicy{
+		
+		static List<String> shownAds;
+		static{
+			shownAds = new LinkedList<String>();
+		}
+		
+		
+		@Override
+		public String queryBannerName(String[] banners) {
+			List<String> list = Arrays.asList(banners);
+			list.removeAll(shownAds);
+			
+			if(list.isEmpty()){
+				shownAds.clear();
+				list.addAll(Arrays.asList(banners));
+			}
+			
+			return list.get(new Random(System.currentTimeMillis()).nextInt(list.size()));
+		}
+				
+	}
+	
 	@Override
 	public void show(){
 		super.show();
 		
 		AssetManager m = getGame().getManager().getAssetManager();
-		String bannerPath = "data/static.png";
+		
+		String bannerPath = "data/adv/"+ new FareBannerPolicy().queryBannerName(banners);
 		if(!m.isLoaded(bannerPath)){
 			m.load(bannerPath, Texture.class);
 			m.finishLoading();
