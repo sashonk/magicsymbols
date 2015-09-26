@@ -100,7 +100,6 @@ public class ResourcesManager {
 
 		manager.load("data/hd.atlas", TextureAtlas.class);
 		
-
 		manager.load("data/fonts/comic18.fnt", BitmapFont.class);
 		manager.load("data/fonts/comic18y.fnt", BitmapFont.class);
 		manager.load("data/fonts/comic24.fnt", BitmapFont.class);
@@ -109,7 +108,9 @@ public class ResourcesManager {
 		manager.load("data/fonts/comic72.fnt", BitmapFont.class);
 		manager.load("data/fonts/comic102.fnt", BitmapFont.class);
 		manager.load("data/fonts/comic102b.fnt", BitmapFont.class);
-	//	manager.load("data/static.jpg", Texture.class);
+		manager.load("data/fonts/glaga72.fnt", BitmapFont.class);
+		manager.load("data/fonts/glaga36.fnt", BitmapFont.class);
+		manager.load("data/fonts/glaga180.fnt", BitmapFont.class);
 
 
 	}
@@ -123,7 +124,6 @@ public class ResourcesManager {
 		
 		skin = new Skin();
 		
-
 skin.add("comic18", manager.get("data/fonts/comic18.fnt"));
 skin.add("comic18y", manager.get("data/fonts/comic18y.fnt"));
 skin.add("comic24", manager.get("data/fonts/comic24.fnt"));
@@ -132,6 +132,18 @@ skin.add("comic48",manager.get("data/fonts/comic48.fnt"));
 skin.add("comic72", manager.get("data/fonts/comic72.fnt"));
 skin.add("comic102", manager.get("data/fonts/comic102.fnt"));
 skin.add("comic102b", manager.get("data/fonts/comic102b.fnt"));
+skin.add("glaga36", manager.get("data/fonts/glaga36.fnt"));
+skin.add("glaga180", manager.get("data/fonts/glaga180.fnt"));
+
+	LabelStyle lsXSize = new LabelStyle();
+	lsXSize.font = skin.getFont("glaga180");
+	lsXSize.fontColor = Color.BLACK.cpy();
+	skin.add("xsize", lsXSize);
+
+ 	LabelStyle lsGlaga36 = new LabelStyle();
+ 	lsGlaga36.font = skin.getFont("glaga36");
+ 	lsGlaga36.fontColor = Color.BLACK.cpy();
+	skin.add("glaga_mini", lsGlaga36);
 
 
 /*	TextButtonStyle bigStyle = new TextButtonStyle();

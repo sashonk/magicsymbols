@@ -1,6 +1,8 @@
 package com.me.magic2;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import com.badlogic.gdx.Application.ApplicationType;
@@ -249,7 +251,13 @@ public class GameScreen extends BaseScreen{
 		menu.add(begin).row();
 		final Button lang = new L10nButton(rm.getL10n(), "language", skin, "huge");
 		menu.add(lang).row();		
-		
+/*		final Label glaga = new Label("abcdefghij", skin, "glaga");
+		menu.add(glaga).row();
+		final Label glaga2 = new Label("klmnopqrs", skin, "glaga");
+		menu.add(glaga2).row();
+		final Label glaga3 = new Label("tuqvwxyz", skin, "glaga");
+		menu.add(glaga3).row();*/
+
 		
 		menu.pack();
 		getStage().addActor(menu);
@@ -328,31 +336,37 @@ public class GameScreen extends BaseScreen{
 	
 	Actor number(int num){
 		Skin skin = getGame().getManager().getSkin();
-		Group gp = new Group();
-		Label number = new Label(Integer.toString(num), skin, "huge");
-		gp.addActor(number);
+		//Group gp = new Group();
+		Label number = new Label(Integer.toString(num), skin, "tiny");
+		//gp.addActor(number);
 		//gp.setSize(number.getWidth(), number.getHeight());
-		float scale = 0.18f;
-		gp.setScale(scale);
-		gp.setSize(number.getWidth()*scale, number.getHeight()*scale);
-		return gp;
+		//float scale = 0.66f;
+		//gp.setScale(scale);
+		//gp.setSize(number.getWidth()*scale, number.getHeight()*scale);
+		return number;
 	}
 
 	void createGame(){
 		created = true;
 		gestureEnabled = true;
 		
+		final Map<Integer, String> symbolMap = new HashMap<Integer, String>();
+		symbolMap.put(Integer.valueOf(1), "a");
+		symbolMap.put(Integer.valueOf(2), "b");
+		symbolMap.put(Integer.valueOf(3), "c");
+		symbolMap.put(Integer.valueOf(4), "d");
+		symbolMap.put(Integer.valueOf(5), "e");
+		symbolMap.put(Integer.valueOf(6), "i");
+		symbolMap.put(Integer.valueOf(7), "g");
+		symbolMap.put(Integer.valueOf(8), "m");
+		symbolMap.put(Integer.valueOf(9), "s");
+		symbolMap.put(Integer.valueOf(10), "x");
 		getStage().clear();
 		listeners();
 		background();
-		//p2z.setCanPan(true);
-		//p2z.setCanZoom(true);
 		
-		TextureAtlas a  =  getGame().getManager().getAtlas();		
-		
-		final Table main = new Table();
-		
-		Skin skin = getGame().getManager().getSkin();
+		final Table main = new Table();		
+		final Skin skin = getGame().getManager().getSkin();
 		
 		Table instructions = new Table();
 		instructions.pad(0);
@@ -379,44 +393,41 @@ public class GameScreen extends BaseScreen{
 		instructions.pack();		
 		main.add(instructions).row();
 		Table table = new Table();		
-		table.defaults().padTop(20).padLeft(cellPad).padRight(cellPad);
-		
-		
+		table.defaults().padTop(20).padLeft(cellPad).padRight(cellPad);				
 		Random rnd = new Random(System.currentTimeMillis());
 		
 		int currentValue = rnd.nextInt(10) +1;
 		while(currentValue==previosValue){
 			currentValue = rnd.nextInt(10) +1;
 		}
-		previosValue= currentValue;
-		
-		final int valueOfInterest = currentValue;
-		
-		
-		
+		previosValue= currentValue;		
+		final int valueOfInterest = currentValue;						
 		previosValue = valueOfInterest;
-		for(int i = 0; i < 10 ; i++){
-			for(int j = 0; j < 10 ; j++){
-				int c = j+i*10;
-				int value = rnd.nextInt(10) +1;
-				
-				if(c%9==0 && c >= 9){
-					value = valueOfInterest;
+		
+		int height = 7;
+		int width = 15;
+		int maxIndex = 99;
+		outer: for(int i = 0; i < height ; i++){
+			for(int j = 0; j < width ; j++){
+				int index = j+i*width;
+				if(index > maxIndex) {
+					break outer;
 				}
 				
+				int value = rnd.nextInt(10) +1;
 				
-				Table cell = new Table();
-				//cell.defaults().align(Align.bottom);
-				Image img = new Image(a.findRegion(Integer.valueOf(value).toString()));								
-				cell.add(img).width(img.getWidth()*imgCoef).height(img.getHeight()*imgCoef).pad(2);
-				//Label number = new Label(Integer.toString(c), skin, "tiny");
-				Actor number = number(c);
+				// HERE IS THE SQUARE MAGIC!!
+				if(index%9==0 && index >= 9){
+					value = valueOfInterest;
+				}				
 				
-
+				Table cell = new Table();	
+				String symbol = symbolMap.get(value);
+				Label glag = new Label(symbol, skin, "glaga_mini");
+				cell.add(glag).row();
+				Actor number = number(index);
 				cell.add(number);				
-				cell.pack();
-				
-
+				cell.pack();				
 				table.add(cell);
 			}
 			
@@ -479,7 +490,15 @@ public class GameScreen extends BaseScreen{
 					
 					@Override
 					public void run() {
-						final Image spot = new Image(getGame().getManager().getAtlas().findRegion(Integer.toString(valueOfInterest)));
+						
+						final String symbolOfInterest = symbolMap.get(valueOfInterest);
+						//final Image spot = new Image(getGame().getManager().getAtlas().findRegion(Integer.toString(valueOfInterest)));
+						final Group spot = new Group();
+						final Label spotLabel = new Label(symbolOfInterest, skin, "xsize");
+						spot.addActor(spotLabel);
+						final float scale = 2;
+						spot.setScale(scale);
+						spot.setSize(spotLabel.getWidth() * spot.getScaleX(), spotLabel.getHeight() * spot.getScaleY());
 						spot.getColor().a = 0;
 						getStage().addActor(spot);
 						spot.addAction(Actions.sequence(Actions.fadeIn(1)));
