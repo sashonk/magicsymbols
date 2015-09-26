@@ -2,21 +2,16 @@ package com.me.magic2.android;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.me.magic2.IActivityRequestHandler;
@@ -62,17 +57,21 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
 	    adView.loadAd(buildRequest());*/
 	    
 	    
-	   interstitial = createInterstitial();
+		interstitial = new InterstitialAd(this);
+		interstitial.setAdUnitId(AD_UNIT_ID_I);
+		interstitial.setAdListener(new AdListener() {
+   		@Override
+			public void onAdClosed() {
+				AdRequest adRequest = new AdRequest.Builder().build();
+				interstitial.loadAd(adRequest);
+			}
+		});
 	    interstitial.loadAd(buildRequest());
 	    
 
 }
 	
-    private InterstitialAd createInterstitial(){
-    	InterstitialAd ad = new InterstitialAd(this);
-    	ad.setAdUnitId(AD_UNIT_ID_I);
-    	return ad;
-    }
+
 	
 /*    private AdView createAdView() {
         adView = new AdView(this);
@@ -107,8 +106,7 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
 			          interstitial.show();
 			        }	
 				 else{
-					 AdRequest rq = buildRequest();
-					 interstitial.loadAd(rq);
+					 AndroidLauncher.this.log(appId, "ad has not yet been loaded...");
 					 
 				 }
 			}
@@ -122,13 +120,7 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
           		build();
       }
 
-      public void startAdvertising(AdView adView) {
-        AdRequest adRequest = new AdRequest.Builder().
-        		addTestDevice(AdRequest.DEVICE_ID_EMULATOR).
-        		addTestDevice(EXPLAY).
-        		build();
-        adView.loadAd(adRequest);
-      }
+
       
       @Override
       public void onResume() {
