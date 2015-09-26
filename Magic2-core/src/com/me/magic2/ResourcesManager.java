@@ -108,7 +108,6 @@ public class ResourcesManager {
 		manager.load("data/fonts/comic72.fnt", BitmapFont.class);
 		manager.load("data/fonts/comic102.fnt", BitmapFont.class);
 		manager.load("data/fonts/comic102b.fnt", BitmapFont.class);
-		manager.load("data/fonts/glaga72.fnt", BitmapFont.class);
 		manager.load("data/fonts/glaga36.fnt", BitmapFont.class);
 		manager.load("data/fonts/glaga180.fnt", BitmapFont.class);
 

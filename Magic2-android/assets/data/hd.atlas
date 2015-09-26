@@ -1,117 +1,41 @@
 
 hd.png
-size: 1024,1024
+size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-1
-  rotate: false
-  xy: 2, 277
-  size: 277, 372
-  orig: 277, 372
-  offset: 0, 0
-  index: -1
-10
-  rotate: false
-  xy: 726, 7
-  size: 210, 326
-  orig: 210, 326
-  offset: 0, 0
-  index: -1
-2
-  rotate: false
-  xy: 2, 651
-  size: 393, 365
-  orig: 393, 365
-  offset: 0, 0
-  index: -1
-3
-  rotate: false
-  xy: 397, 658
-  size: 245, 358
-  orig: 245, 358
-  offset: 0, 0
-  index: -1
-4
-  rotate: false
-  xy: 281, 284
-  size: 196, 365
-  orig: 196, 365
-  offset: 0, 0
-  index: -1
-5
-  rotate: false
-  xy: 644, 668
-  size: 233, 348
-  orig: 233, 348
-  offset: 0, 0
-  index: -1
-6
-  rotate: false
-  xy: 710, 335
-  size: 233, 331
-  orig: 233, 331
-  offset: 0, 0
-  index: -1
-7
-  rotate: false
-  xy: 479, 320
-  size: 229, 336
-  orig: 229, 336
-  offset: 0, 0
-  index: -1
-9
-  rotate: false
-  xy: 479, 2
-  size: 245, 316
-  orig: 245, 316
-  offset: 0, 0
-  index: -1
 close
   rotate: false
-  xy: 2, 29
+  xy: 2, 4
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 dialog
   rotate: false
-  xy: 879, 916
+  xy: 349, 150
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 flag_en
   rotate: false
-  xy: 184, 152
+  xy: 184, 127
   size: 163, 123
   orig: 163, 123
   offset: 0, 0
   index: -1
 flag_ru
   rotate: false
-  xy: 184, 27
+  xy: 184, 2
   size: 163, 123
   orig: 163, 123
   offset: 0, 0
   index: -1
 magic
   rotate: false
-  xy: 2, 95
+  xy: 2, 70
   size: 180, 180
   orig: 180, 180
-  offset: 0, 0
-  index: -1
-
-hd2.png
-size: 256,512
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-8
-  rotate: false
-  xy: 2, 2
-  size: 202, 308
-  orig: 202, 308
   offset: 0, 0
   index: -1
