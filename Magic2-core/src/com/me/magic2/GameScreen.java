@@ -1,7 +1,12 @@
 package com.me.magic2;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -396,9 +401,9 @@ public class GameScreen extends BaseScreen{
 		table.defaults().padTop(20).padLeft(cellPad).padRight(cellPad);				
 		Random rnd = new Random(System.currentTimeMillis());
 		
-		int currentValue = rnd.nextInt(10) +1;
+		int currentValue = rnd.nextInt(10) + 1;
 		while(currentValue==previosValue){
-			currentValue = rnd.nextInt(10) +1;
+			currentValue = rnd.nextInt(10) + 1;
 		}
 		previosValue= currentValue;		
 		final int valueOfInterest = currentValue;						
@@ -407,6 +412,23 @@ public class GameScreen extends BaseScreen{
 		int height = 7;
 		int width = 15;
 		int maxIndex = 99;
+		LinkedList<Integer> values = new LinkedList<Integer>();
+		for(Integer i = 0 ; i<10 ;i++) {
+			for(int j = 1; j<=10; j++){
+				if(j!=valueOfInterest) {
+					values.add(j);
+				}
+			}
+		}			
+		values.add(valueOfInterest);
+
+		
+		Collections.shuffle(values);
+		for(Integer i = 0 ; i<9 ;i++) {
+			values.add(valueOfInterest);
+		}
+		
+		Map<Integer, Integer> assertMap = new HashMap<Integer, Integer>();
 		outer: for(int i = 0; i < height ; i++){
 			for(int j = 0; j < width ; j++){
 				int index = j+i*width;
@@ -415,11 +437,21 @@ public class GameScreen extends BaseScreen{
 				}
 				
 				int value = rnd.nextInt(10) +1;
-				
+												
 				// HERE IS THE SQUARE MAGIC!!
-				if(index%9==0 && index >= 9){
-					value = valueOfInterest;
-				}				
+				if(index%9==0 && index >= 9 && index <= 81){
+					value = values.pollLast();
+				}
+				else {
+					value = values.pollFirst();
+				}
+				
+				Integer amount = assertMap.get(value);
+				if(amount==null){
+					amount = Integer.valueOf(0);
+				}
+				amount++;
+				assertMap.put(value, amount);
 				
 				Table cell = new Table();	
 				String symbol = symbolMap.get(value);
@@ -434,6 +466,18 @@ public class GameScreen extends BaseScreen{
 			table.row();
 		}
 		
+		if(values.size()>0){
+			throw new IllegalArgumentException("must be empty!");
+		}
+		System.out.println("values empty");
+		//check that each of 10 values occurs exactly 10 times
+		for(int i = 1; i <= 10 ; i++) {
+			Integer occurs = assertMap.get(Integer.valueOf(1));
+			if(occurs != 10) {
+				throw new IllegalStateException(String.format("expected 10, but found %d", occurs) );
+			}
+			System.out.println(String.format("i=%d, occurs=%d",i,  occurs ));
+		}
 	
 		table.pack();
 		main.add(table).row();
