@@ -163,7 +163,7 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
 	}
 
 	@Override
-	public void checkInternetConnection(final OnlineStatusCallback callback) {
+	public void checkInternetConnection(final ConnectionStatusCallback callback) {
 	
 		this.runOnUiThread(new Runnable() {
 			
@@ -172,8 +172,12 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
 				ConnectivityManager cm =
 				        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 				    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-				    
-				    callback.call(netInfo != null && netInfo.isConnectedOrConnecting());
+				    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+				    	callback.online();
+				    }
+				    else {
+				    	callback.offline();
+				    }
 				
 			}
 		});

@@ -10,10 +10,13 @@ public interface IActivityRequestHandler {
 	
 	public void showInterstitial();
 	
-	public void checkInternetConnection(OnlineStatusCallback callback);
+	public void checkInternetConnection(ConnectionStatusCallback callback);
 	
-	public static interface OnlineStatusCallback{
-		public void call(boolean online);
+	public static interface ConnectionStatusCallback{
+		
+		void online();
+		
+		void offline();
 	}
 
 }

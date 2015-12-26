@@ -45,8 +45,8 @@ public class DesktopLauncher implements IActivityRequestHandler{
 	}
 
 	@Override
-	public void checkInternetConnection(OnlineStatusCallback callback) {
-		callback.call(true);
+	public void checkInternetConnection(ConnectionStatusCallback callback) {
+		callback.online();
 		
 	}
 }
